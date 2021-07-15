@@ -1,4 +1,6 @@
-export function Nav(){
+import { NextPage } from 'next'
+
+const Nav: NextPage = () => {
   return (
     <nav>
       <ul>
@@ -9,3 +11,5 @@ export function Nav(){
     </nav>
   )
 }
+
+export default Nav
