@@ -14,6 +14,6 @@ export default async function connect(): Promise<ConnectType>{
 
   if(!client.isConnected()){await client.connect()}
   const db = client.db('nextclassroom')
-  return {db, client}
 
+  return {db, client}
 }
