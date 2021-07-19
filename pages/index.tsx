@@ -7,6 +7,7 @@ const Home: NextPage = () => {
   const [ session, loading ] = useSession()
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      
       <Head>
         <title>Next Classroom</title>
       </Head>
