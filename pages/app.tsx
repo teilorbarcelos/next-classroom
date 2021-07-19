@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import Nav from '../components/Nav'
 
-const Home: NextPage = () => {
+const App: NextPage = () => {
   const [ session, loading ] = useSession()
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -34,4 +34,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default App

@@ -5,7 +5,10 @@ const Nav: NextPage = () => {
     <nav>
       <ul>
         <li>
-          Home
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/app">App</a>
         </li>
       </ul>
     </nav>
