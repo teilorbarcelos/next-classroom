@@ -29,7 +29,7 @@ export default async (
     
     resp.status(200).json(response)
   }else{
-    resp.status(400).json({error: 'this route is only to post requests!'})
+    resp.status(400).json({error: 'this route is only to POST requests!'})
   }
   
 }

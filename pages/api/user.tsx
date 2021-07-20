@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import connect from "../../utils/database"
-import {ObjectId} from "mongodb"
 
 interface ErrorResponseType {
   error: string
@@ -66,27 +65,8 @@ export default async (
     })
     
     resp.status(201).json(response.ops[0])
-
-  }else if(req.method === 'GET'){
-    const {rid} = req.body
-    const {db} = await connect()
-    const id = new ObjectId(rid)
-
-    if(!rid){
-      resp.status(400).json({error: 'Invalid user id!'})
-      return
-    }
-
-    const response = await db.collection('users').findOne({"_id": id})
-
-    if(!response){
-      resp.status(400).json({error: 'This user not existis!'})
-      return
-    }
-    
-    resp.status(200).json(response)
   }else{
-    resp.status(400).json({error: 'this route is only to post requests!'})
+    resp.status(400).json({error: 'this route is only to POST requests!'})
   }
   
 }
