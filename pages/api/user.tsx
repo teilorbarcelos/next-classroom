@@ -2,10 +2,31 @@ import { NextApiRequest, NextApiResponse } from "next"
 import connect from "../../utils/database"
 import {ObjectId} from "mongodb"
 
-export default async (req: NextApiRequest, resp: NextApiResponse) => {
+interface ErrorResponseType {
+  error: string
+}
+
+interface SuccessResponseType {
+  _id: string
+  name: string
+  email: string
+  cellPhone: string
+  teacher: true
+  coins: 1
+  courses: string[]
+  available_hours: object
+  available_locations: string[]
+  reviews: object[]
+  appointments: object[]
+}
+
+export default async (
+  req: NextApiRequest,
+  resp: NextApiResponse<ErrorResponseType | SuccessResponseType>
+):Promise<void> => {
 
   if(req.method === 'POST'){
-    const {name, email, cellPhone, teacher, coins, courses, available_hours, available_locations} = req.body
+    const {name, email, cellPhone, teacher, courses, available_hours, available_locations} = req.body
 
     if(!teacher){
       if(!name ||
