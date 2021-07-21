@@ -7,7 +7,8 @@ import Nav from '../components/Nav'
 
 const Profile: NextPage = () => {
   const [ session, loading ] = useSession()
-  const { data, error } = useSWR(`/api/user/${session.user.email}`, api)
+  const { data, error } = useSWR(`/api/user/${session?.user.email}`, api)
+  // const { data, error } = useSWR(`/api/user/60f6c880fb48c04b96f0d15d`, api)
 
   return (
     <div>
@@ -28,6 +29,8 @@ const Profile: NextPage = () => {
           <h1>Your Profile!</h1>
           Signed in as {session.user.email} <br/>
           <button onClick={() => signOut()}>Sign out</button>
+          <p>{data.data.name}</p>
+          <p>{data.data.coins} Moedas</p>
         </>
       )}
       {error &&

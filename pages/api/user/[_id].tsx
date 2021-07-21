@@ -31,7 +31,8 @@ export default async (
     let response:SuccessResponseType
 
     try {
-        response = await db.collection('users').findOne({"_id": new ObjectId(_id)})
+      // response = await db.collection('users').findOne({"_id": new ObjectId(_id)})
+      response = await db.collection('users').findOne({"email": _id})
     } catch {
         resp.status(400).json({ error: 'Wrong objectID' })
         return
