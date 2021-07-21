@@ -1,3 +1,5 @@
+import useSWR from 'swr'
+import api from '../utils/api'
 import { signIn, signOut, useSession } from 'next-auth/client'
 import { NextPage } from 'next'
 import Head from 'next/head'
@@ -5,6 +7,8 @@ import Nav from '../components/Nav'
 
 const Profile: NextPage = () => {
   const [ session, loading ] = useSession()
+  const { data, error } = useSWR(`/api/user/${session.user.email}`, api)
+
   return (
     <div>
       
@@ -14,21 +18,26 @@ const Profile: NextPage = () => {
 
       <Nav />
 
-      <h1>Bem vindo(a) a página profile!</h1>
-
       {!session && <>
-            Not signed in <br/>
-            <button onClick={() => signIn('auth0')}>Sign in</button>
-          </>}
-          {session && <>
-            Signed in as {session.user.email} <br/>
-            <button onClick={() => signOut()}>Sign out</button>
-          </>}
-        {loading && (
-          <div className="text-3xl">
-            <h1>Carregando</h1>
-          </div>
-        )}
+        Favor, faça login para visualizar esta página! <br/>
+        <button onClick={() => signIn('auth0')}>Sign in</button>
+        </>
+      }
+      {session && data && (
+        <>
+          <h1>Your Profile!</h1>
+          Signed in as {session.user.email} <br/>
+          <button onClick={() => signOut()}>Sign out</button>
+        </>
+      )}
+      {error &&
+        <h1>Ousuário referente ao ID {session.user.email} não existe!</h1>
+      }
+      {loading && (
+        <div className="text-3xl">
+          <h1>Carregando</h1>
+        </div>
+      )}
 
     </div>
   )
