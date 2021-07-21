@@ -1,15 +1,27 @@
 import { NextPage } from 'next'
+import Link from 'next/link'
 
 const Nav: NextPage = () => {
   return (
-    <nav>
-      <ul>
+    <nav className="w-full">
+      <ul className="flex justify-between items-center p-8">
         <li>
-          <a href="/">Home</a>
+          <Link href="/">
+            <a className="text-blue-500 no-underline">NEXT CLASSROOM</a>
+          </Link>
         </li>
-        <li>
-          <a href="/app">App</a>
-        </li>
+        <ul className="flex justify-between items-center space-x-4">
+          <li>
+            <Link href="/profile">
+              <a className="text-blue-500 no-underline">Perfil</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/search">
+              <a className="text-blue-500 no-underline">Search</a>
+            </Link>
+          </li>
+        </ul>
       </ul>
     </nav>
   )

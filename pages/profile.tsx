@@ -3,18 +3,18 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import Nav from '../components/Nav'
 
-const Home: NextPage = () => {
+const Profile: NextPage = () => {
   const [ session, loading ] = useSession()
   return (
     <div>
       
       <Head>
-        <title>Next Classroom</title>
+        <title>Profile</title>
       </Head>
 
       <Nav />
 
-      <h1>Bem vindo(a) ao Next Classroom!</h1>
+      <h1>Bem vindo(a) a página profile!</h1>
 
       {!session && <>
             Not signed in <br/>
@@ -34,4 +34,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Profile
