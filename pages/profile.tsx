@@ -27,14 +27,14 @@ const Profile: NextPage = () => {
       {session && data && (
         <>
           <h1>Your Profile!</h1>
-          Signed in as {session.user.email} <br/>
+          Signed in as {session?.user.email} <br/>
           <button onClick={() => signOut()}>Sign out</button>
           <p>{data.data.name}</p>
           <p>{data.data.coins} Moedas</p>
         </>
       )}
       {error &&
-        <h1>Ousuário referente ao ID {session.user.email} não existe!</h1>
+        <h1>Ousuário referente ao ID {session?.user.email} não existe!</h1>
       }
       {loading && (
         <div className="text-3xl">
