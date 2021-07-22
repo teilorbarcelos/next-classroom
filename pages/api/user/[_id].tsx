@@ -31,10 +31,13 @@ export default async (
     let response:SuccessResponseType
 
     try {
-      // response = await db.collection('users').findOne({"_id": new ObjectId(_id)})
-      response = await db.collection('users').findOne({"email": _id})
+      if(_id.indexOf('@') == -1){
+        response = await db.collection('users').findOne({"_id": new ObjectId(_id)})
+      }else{
+        response = await db.collection('users').findOne({"email": _id})
+      }
     } catch {
-        resp.status(400).json({ error: 'Wrong objectID' })
+        resp.status(400).json({ error: 'Invalid ID parameter!' })
         return
     }
 
