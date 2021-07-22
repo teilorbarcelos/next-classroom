@@ -8,7 +8,6 @@ import Nav from '../components/Nav'
 const Profile: NextPage = () => {
   const [ session, loading ] = useSession()
   const { data, error } = useSWR(`/api/user/${session?.user.email}`, api)
-  // const { data, error } = useSWR(`/api/user/60f6c880fb48c04b96f0d15d`, api)
 
   return (
     <div>
@@ -33,8 +32,8 @@ const Profile: NextPage = () => {
           <p>{data.data.coins} Moedas</p>
         </>
       )}
-      {error &&
-        <h1>Ousuário referente ao ID {session?.user.email} não existe!</h1>
+      {session && error &&
+        <h1>Ousuário referente ao ID/e-mail {session.user.email} não existe!</h1>
       }
       {loading && (
         <div className="text-3xl">
