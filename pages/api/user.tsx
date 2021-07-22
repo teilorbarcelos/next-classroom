@@ -51,7 +51,7 @@ export default async (
 
     const { db } = await connect()
 
-    const response = await db.collection('users').insertOne({
+    const response = await db.insertOne({
       name,
       email,
       cellPhone,

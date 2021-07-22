@@ -12,18 +12,18 @@ interface SuccessResponseType {
   email: string
   cellPhone: string
   teacher: true
-  coins: 1
+  coins: number
   courses: string[]
-  available_hours: object
+  available_hours: Record<string, number[]>
   available_locations: string[]
-  reviews: object[]
-  appointments: object[]
+  reviews: Record<string, unknown>[]
+  appointments: Record<string, unknown>[]
 }
 
 export default async (
   req: NextApiRequest,
   resp: NextApiResponse<ErrorResponseType | SuccessResponseType>
-):Promise<void> => {
+): Promise<void> => {
 
   if(req.method === 'GET'){
     const _id = req.query._id as string
@@ -32,9 +32,9 @@ export default async (
 
     try {
       if(_id.indexOf('@') == -1){
-        response = await db.collection('users').findOne({"_id": new ObjectId(_id)})
+        response = await db.findOne({"_id": new ObjectId(_id), teacher: true})
       }else{
-        response = await db.collection('users').findOne({"email": _id})
+        response = await db.findOne({"email": _id})
       }
     } catch {
         resp.status(400).json({ error: 'Invalid ID parameter!' })
@@ -48,7 +48,7 @@ export default async (
     
     resp.status(200).json(response)
   }else{
-    resp.status(400).json({error: 'this route is only to GET requests!'})
+    resp.status(400).json({error: 'Wrong request method!'})
   }
   
 }
