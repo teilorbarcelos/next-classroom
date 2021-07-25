@@ -5,7 +5,7 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import Nav from '../components/Nav'
 import BtnBlue from '../components/BtnBlue'
-import { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 
 const Profile: NextPage = () => {
   const [isTeacher, setIsTeacher] = useState(false)
@@ -22,6 +22,26 @@ const Profile: NextPage = () => {
 
   const [ session, loading ] = useSession()
   const { data, error } = useSWR(`/api/user/${session?.user.email}`, api)
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const data = {
+      name,
+      email,
+      cellphone,
+      isTeacher,
+      courses: courses.split(',').map((item) => item.trim()),
+      availableLocations: availableLocations.split(',').map((item) => item.trim()),
+      monday,
+      tuesday,
+      wednesday,
+      thursday,
+      friday
+    }
+
+    console.log(data)
+  }
 
   return (
     <div>
@@ -50,7 +70,7 @@ const Profile: NextPage = () => {
       <div className="flex flex-col items-center">
         <h1 className="text-3xl">Seja bem vindo ao Next Classroom, {session.user.name}!</h1>
         <h1 className="text-2xl">Favor, complete a criação do seu perfil:</h1>
-        <form className="flex flex-col items-center mb-10">
+        <form onSubmit={handleSubmit} className="flex flex-col items-center mb-10">
           <input
             type="text"
             value={name}
@@ -148,7 +168,7 @@ const Profile: NextPage = () => {
       }
       {loading && (
         <div className="text-3xl">
-          <h1>Carregando</h1>
+          <h1>Carregando...</h1>
         </div>
       )}
 
