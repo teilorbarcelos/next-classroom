@@ -17,7 +17,7 @@ interface SuccessResponseType {
   _id: string
   name: string
   email: string
-  cellPhone: string
+  cellphone: string
   teacher: true
   coins: number
   courses: string[]
@@ -37,7 +37,7 @@ export default async (
     const {
       name,
       email,
-      cellPhone,
+      cellphone,
       teacher,
       courses,
       available_hours,
@@ -45,7 +45,7 @@ export default async (
     }: {
       name: string
       email: string
-      cellPhone: string
+      cellphone: string
       teacher: boolean
       courses: string[]
       available_locations: string[]
@@ -69,10 +69,11 @@ export default async (
       return
     }
 
+    // verif if form inputs are valid
     if(!teacher){
       if(!name ||
         !email ||
-        !cellPhone){
+        !cellphone){
   
         resp.status(400).json({error: 'Missing some information!'})
         return
@@ -81,7 +82,7 @@ export default async (
     } else {
       if(!name ||
         !email ||
-        !cellPhone ||
+        !cellphone ||
         !courses ||
         !available_hours ||
         !available_locations){
@@ -105,7 +106,7 @@ export default async (
     const response = await db.insertOne({
       name,
       email: lowerCaseEmail,
-      cellPhone,
+      cellphone,
       teacher,
       coins: 1,
       courses: courses || [],

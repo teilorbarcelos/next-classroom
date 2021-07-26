@@ -347,7 +347,7 @@ export default function UserProfile({
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const _id = context.query._id as string
   // const response = await api<User>(`/api/user/${_id}`)
-  const response = await api(`/api/user/${_id}`)
+  const response = await api(`${process.env.NEXT_PUBLIC_URL}/api/user/${_id}`)
 
   const user = response.data
 

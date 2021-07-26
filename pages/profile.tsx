@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import axios from 'axios'
 import api from '../utils/api'
 import { signIn, signOut, useSession } from 'next-auth/client'
 import { NextPage } from 'next'
@@ -14,33 +15,67 @@ const Profile: NextPage = () => {
   const [cellphone, setCellphone] = useState('')
   const [courses, setCourses] = useState('')
   const [availableLocations, setAvailableLocations] = useState('')
-  const [monday, setMonday] = useState('')
-  const [tuesday, setTuesday] = useState('')
-  const [wednesday, setWednesday] = useState('')
-  const [thursday, setThursday] = useState('')
-  const [friday, setFriday] = useState('')
+  const [monday, setMonday] = useState(null)
+  const [tuesday, setTuesday] = useState(null)
+  const [wednesday, setWednesday] = useState(null)
+  const [thursday, setThursday] = useState(null)
+  const [friday, setFriday] = useState(null)
 
   const [ session, loading ] = useSession()
   const { data, error } = useSWR(`/api/user/${session?.user.email}`, api)
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    const available_hours = {
+      
+      monday: monday
+        ?.split(',')
+        .map(item => item.trim())
+        .map(item => parseInt(item)),
+      
+      tuesday: tuesday
+        ?.split(',')
+        .map(item => item.trim())
+        .map(item => parseInt(item)),
+    
+      wednesday: wednesday
+        ?.split(',')
+        .map(item => item.trim())
+        .map(item => parseInt(item)),
+  
+      thursday: thursday
+        ?.split(',')
+        .map(item => item.trim())
+        .map(item => parseInt(item)),
+
+      friday: friday
+        ?.split(',')
+        .map(item => item.trim())
+        .map(item => parseInt(item))
+    }
+
+    for(const dayOfTheWeek in available_hours){
+      if(!available_hours[dayOfTheWeek]){
+        delete available_hours[dayOfTheWeek]
+      }
+    }
 
     const data = {
       name,
       email,
       cellphone,
-      isTeacher,
+      teacher: isTeacher,
       courses: courses.split(',').map((item) => item.trim()),
-      availableLocations: availableLocations.split(',').map((item) => item.trim()),
-      monday,
-      tuesday,
-      wednesday,
-      thursday,
-      friday
+      available_locations: availableLocations.split(',').map((item) => item.trim()),
+      available_hours
     }
 
-    console.log(data)
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/user`, data)
+    } catch (error) {
+      alert('Ocorreu um erro durante a requisição: ' + error.response.data.error)
+    }
   }
 
   return (
